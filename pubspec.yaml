@@ -1,8 +1,10 @@
 name: flutter_rollbar
-description: A new Flutter package project.
+description: Rollbar reporting for flutter
 version: 0.0.1
-author:
-homepage:
+authors:
+- Twin Sun, LLC <admin@twinsunsolutions.com>
+- Jami Couch <jami.couch@twinsunsolutions.com>
+homepage: https://github.com/twinsunllc/flutter_rollbar
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"

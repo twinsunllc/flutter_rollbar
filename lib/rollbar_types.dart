@@ -51,13 +51,13 @@ class RollbarTelemetry {
 }
 
 class RollbarPerson {
-  final String id, email, name;
+  final String id, email, username;
 
-  RollbarPerson({@required this.id, this.email, this.name});
+  RollbarPerson({@required this.id, this.email, this.username});
 
   Map toJson() => {
     'id': id,
     'email': email,
-    'name': name,
+    'username': username,
   };
 }

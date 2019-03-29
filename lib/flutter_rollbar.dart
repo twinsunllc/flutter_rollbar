@@ -9,6 +9,9 @@ import 'package:flutter_rollbar/rollbar_types.dart';
 import 'package:meta/meta.dart';
 import 'package:package_info/package_info.dart';
 
+export './rollbar_types.dart';
+export './rollbar_api.dart';
+
 class Rollbar {
   static var _instance = Rollbar._internal();
 

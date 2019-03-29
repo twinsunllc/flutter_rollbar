@@ -1,14 +1,26 @@
-# flutter_rollbar
+# Flutter Rollbar
 
-A new Flutter package project.
+## About
 
-## Getting Started
+Rollbar reporting for flutter
 
-This project is a starting point for a Dart
-[package](https://flutter.io/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+## Usage
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+```dart
+import 'package:flutter_rollbar/flutter_rollbar.dart';
+
+Rollbar()
+    ..accessToken = '<post_client_item token>'
+    ..environment = 'local'
+    ..person = RollbarPerson(id: '3', username: 'A Real Person');
+
+Rollbar().addTelemetry(
+    RollbarTelemetry(
+        level: RollbarLogLevel.INFO,
+        type: RollbarTelemetryType.LOG,
+        message: 'Counter: $_counter',
+    ),
+);
+
+Rollbar().publishReport(message: 'A Report');
+```
