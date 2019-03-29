@@ -1,6 +1,6 @@
 name: flutter_rollbar
 description: Rollbar reporting for flutter
-version: 0.0.1
+version: 0.0.2
 authors:
 - Twin Sun, LLC <admin@twinsunsolutions.com>
 - Jami Couch <jami.couch@twinsunsolutions.com>
