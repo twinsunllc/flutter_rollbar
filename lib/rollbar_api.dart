@@ -8,7 +8,7 @@ import 'package:meta/meta.dart';
 
 class RollbarApi {
   final http.Client _client = http.Client();
-  Future<http.Response> sendReport({@required String accessToken, @required String message, @required List<RollbarTelemetry> telemetry, Map clientData, RollbarPerson person, String environment}) {
+  Future<http.Response> sendReport({@required String accessToken, @required String message, @required List<RollbarTelemetry> telemetry, Map clientData, RollbarPerson person, String environment, Map<String, dynamic> metadata}) {
     return _client.post(
       'https://api.rollbar.com/api/1/item/',
       body: json.encode(
@@ -22,6 +22,7 @@ class RollbarApi {
             'body': {
               'message': {
                 'body': message,
+                ...?metadata
               },
               'telemetry': telemetry.map((item) => item.toJson()).toList(),
             },
