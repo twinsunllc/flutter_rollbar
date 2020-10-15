@@ -37,7 +37,7 @@ class Rollbar {
     _telemetry.add(telemetry);
   }
 
-  Future publishReport({@required String message, Map<String, dynamic> metadata}) async {
+  Future publishReport({@required String message, Map<String, dynamic> metadata, Map<String, dynamic> additionalFields}) async {
     var packageInfo = await PackageInfo.fromPlatform();
 
     var clientData = <String, dynamic>{
@@ -77,7 +77,7 @@ class Rollbar {
     assert(metadata == null || metadata.containsKey('body') == false);
     metadata?.remove('body');
 
-    return _api.sendReport(accessToken: accessToken, telemetry: telemetry, message: message, clientData: clientData, person: person, environment: environment, metadata: metadata);
+    return _api.sendReport(accessToken: accessToken, telemetry: telemetry, message: message, clientData: clientData, person: person, environment: environment, metadata: metadata, additionalFields: additionalFields);
   }
 
   void dispose() {}
