@@ -35,7 +35,13 @@ class RollbarTelemetry {
   final String message;
   final String stack;
 
-  RollbarTelemetry({@required this.level, @required this.type, this.source = 'client', int timestamp, @required this.message, this.stack})
+  RollbarTelemetry(
+      {@required this.level,
+      @required this.type,
+      this.source = 'client',
+      int timestamp,
+      @required this.message,
+      this.stack})
       : this.timestamp = timestamp ?? DateTime.now().millisecondsSinceEpoch;
 
   Map toJson() => {
@@ -56,8 +62,87 @@ class RollbarPerson {
   RollbarPerson({@required this.id, this.email, this.username});
 
   Map toJson() => {
-    'id': id,
-    'email': email,
-    'username': username,
-  };
+        'id': id,
+        'email': email,
+        'username': username,
+      };
+}
+
+abstract class RollbarErrorReport {
+  Map<String, dynamic> toJson();
+}
+
+class RollbarTraceErrorReport with RollbarErrorReport {
+  final StackTrace _stackTrace;
+  final Object _error;
+
+  RollbarTraceErrorReport(this._error, this._stackTrace);
+
+  Iterable _stackTraceFrames() {
+    if (_stackTrace?.toString()?.isEmpty ?? true) {
+      return null;
+    }
+
+    RegExp regExp =
+        RegExp(r'^\s*#(\d+)\s+(.*)\s+\((.+):(\d+):(\d+)\)$', multiLine: true);
+    Iterable<Match> matches = regExp.allMatches(_stackTrace.toString());
+    return matches.map((match) => {
+          "filename": match.group(3),
+          "lineno": int.tryParse(match.group(4)),
+          "colno": int.tryParse(match.group(5)),
+          "method": match.group(2),
+        });
+  }
+
+  Map _exception() {
+    String clazz = _error.runtimeType.toString();
+    String message = _error.toString();
+    if (message.startsWith(clazz)) {
+      message = message.substring(clazz.length + 1).trim();
+    }
+    return {
+      "class": clazz,
+      "message": message,
+    };
+  }
+
+  Map<String, dynamic> traceJson() => {
+        'exception': {
+          ..._exception(),
+        },
+        'frames': [...?_stackTraceFrames()],
+      };
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'trace': {
+          ...traceJson(),
+        },
+      };
+}
+
+class RollbarTraceChainErrorReport with RollbarErrorReport {
+  final Iterable<RollbarTraceErrorReport> traceChain;
+
+  RollbarTraceChainErrorReport(this.traceChain);
+  @override
+  Map<String, dynamic> toJson() => {
+        'trace_chain': traceChain.map((trace) => trace.traceJson()),
+      };
+}
+
+class RollbarMessageReport with RollbarErrorReport {
+  final String _message;
+  Map<String, dynamic> metadata;
+  RollbarMessageReport(this._message, {this.metadata});
+
+  @override
+  Map<String, dynamic> toJson() {
+    assert(metadata == null || metadata.containsKey('body') == false);
+    metadata?.remove('body');
+
+    return {
+      'message': {"body": _message, ...?metadata}
+    };
+  }
 }

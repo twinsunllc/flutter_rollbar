@@ -51,15 +51,15 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _publishReport() async {
-    await Rollbar().publishReport(message: 'A Report');
+    await Rollbar().publishReport(RollbarMessageReport('A Report'));
     showDialog(
       context: context,
       builder: (BuildContext context) => Material(
-            child: Container(
-              padding: MediaQuery.of(context).padding,
-              child: Text('Report Submitted!'),
-            ),
-          ),
+        child: Container(
+          padding: MediaQuery.of(context).padding,
+          child: Text('Report Submitted!'),
+        ),
+      ),
     );
   }
 

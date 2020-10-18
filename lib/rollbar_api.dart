@@ -8,17 +8,22 @@ import 'package:meta/meta.dart';
 
 class RollbarApi {
   final http.Client _client = http.Client();
-  Future<http.Response> sendReport({@required String accessToken, @required String message, @required List<RollbarTelemetry> telemetry, Map clientData, RollbarPerson person, String environment, Map<String, dynamic> metadata, Map<String, dynamic> additionalFields}) {
+  Future<http.Response> sendReport(
+      {@required String accessToken,
+      @required RollbarErrorReport report,
+      @required List<RollbarTelemetry> telemetry,
+      Map clientData,
+      RollbarPerson person,
+      String environment,
+      Map<String, dynamic> metadata,
+      Map<String, dynamic> additionalFields}) {
     Map<String, dynamic> data = {
       'environment': environment,
       'platform': Platform.isAndroid ? 'android' : 'ios',
       'framework': 'flutter',
       'language': 'dart',
       'body': {
-        'message': {
-          'body': message,
-          ...?metadata
-        },
+        ...report.toJson(),
         'telemetry': telemetry.map((item) => item.toJson()).toList(),
       },
       'person': person?.toJson(),
@@ -29,18 +34,19 @@ class RollbarApi {
       }
     };
 
-    assert(additionalFields == null || data.keys.toSet().intersection(additionalFields.keys.toSet()).isEmpty);
+    assert(additionalFields == null ||
+        data.keys.toSet().intersection(additionalFields.keys.toSet()).isEmpty);
     additionalFields?.removeWhere((key, _) => data.containsKey(key));
 
     return _client.post(
       'https://api.rollbar.com/api/1/item/',
       body: json.encode({
-      'access_token': accessToken,
-      'data': {
-        ...data,
-        ...?additionalFields,
-      }
-    }),
+        'access_token': accessToken,
+        'data': {
+          ...data,
+          ...?additionalFields,
+        }
+      }),
     );
   }
 }
