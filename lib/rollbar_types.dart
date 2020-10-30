@@ -83,14 +83,15 @@ class RollbarTraceErrorReport with RollbarErrorReport {
       return null;
     }
 
-    RegExp regExp =
-        RegExp(r'^\s*#(\d+)\s+(.*)\s+\((.+):(\d+):(\d+)\)$', multiLine: true);
+    RegExp regExp = RegExp(
+        r'^\s*(?:#\d+)?\s*(.*?)\s*\((.+?)(?::(\d+)(?::(\d+))?)?\)$',
+        multiLine: true);
     Iterable<Match> matches = regExp.allMatches(_stackTrace.toString());
     return matches.map((match) => {
-          "filename": match.group(3),
-          "lineno": int.tryParse(match.group(4)),
-          "colno": int.tryParse(match.group(5)),
-          "method": match.group(2),
+          "method": match.group(1),
+          "filename": match.group(2),
+          "lineno": int.tryParse(match.group(3)),
+          "colno": int.tryParse(match.group(4)),
         });
   }
 
