@@ -90,8 +90,8 @@ class RollbarTraceErrorReport with RollbarErrorReport {
     return matches.map((match) => {
           "method": match.group(1),
           "filename": match.group(2),
-          "lineno": int.tryParse(match.group(3)),
-          "colno": int.tryParse(match.group(4)),
+          "lineno": match.group(3) != null ? int.tryParse(match.group(3)) : null,
+          "colno": match.group(4) != null ? int.tryParse(match.group(4)) : null,
         });
   }
 
