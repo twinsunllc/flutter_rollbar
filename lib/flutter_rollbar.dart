@@ -6,7 +6,6 @@ import 'dart:io';
 import 'package:device_info/device_info.dart';
 import 'package:flutter_rollbar/rollbar_api.dart';
 import 'package:flutter_rollbar/rollbar_types.dart';
-import 'package:meta/meta.dart';
 import 'package:package_info/package_info.dart';
 
 export './rollbar_types.dart';
@@ -37,7 +36,8 @@ class Rollbar {
     _telemetry.add(telemetry);
   }
 
-  Future publishReport({@required String message}) async {
+  Future publishReport(RollbarErrorReport report,
+      {Map<String, dynamic> additionalFields}) async {
     var packageInfo = await PackageInfo.fromPlatform();
 
     var clientData = <String, dynamic>{
@@ -73,7 +73,15 @@ class Rollbar {
         'app_name': packageInfo.appName,
       };
     }
-    return _api.sendReport(accessToken: accessToken, telemetry: telemetry, message: message, clientData: clientData, person: person, environment: environment);
+
+    return _api.sendReport(
+        accessToken: accessToken,
+        telemetry: telemetry,
+        clientData: clientData,
+        person: person,
+        environment: environment,
+        report: report,
+        additionalFields: additionalFields);
   }
 
   void dispose() {}

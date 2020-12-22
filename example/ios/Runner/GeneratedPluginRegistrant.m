@@ -3,8 +3,18 @@
 //
 
 #import "GeneratedPluginRegistrant.h"
-#import <device_info/DeviceInfoPlugin.h>
-#import <package_info/PackageInfoPlugin.h>
+
+#if __has_include(<device_info/FLTDeviceInfoPlugin.h>)
+#import <device_info/FLTDeviceInfoPlugin.h>
+#else
+@import device_info;
+#endif
+
+#if __has_include(<package_info/FLTPackageInfoPlugin.h>)
+#import <package_info/FLTPackageInfoPlugin.h>
+#else
+@import package_info;
+#endif
 
 @implementation GeneratedPluginRegistrant
 

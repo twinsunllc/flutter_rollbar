@@ -21,6 +21,9 @@ Rollbar().addTelemetry(
         message: 'Counter: $_counter',
     ),
 );
+var metaData = {'module': 'flutter-app'};
+Rollbar().publishReport(RollbarMessageReport('A Report', metaData));
 
-Rollbar().publishReport(message: 'A Report');
+// or post an Error & StackTrace to Rollbar
+Rollbar().publishReport(RollbarTraceErrorReport(error, stackTrace));
 ```
