@@ -25,6 +25,7 @@ class RollbarTelemetryType {
 
   static const RollbarTelemetryType LOG = RollbarTelemetryType('log');
   static const RollbarTelemetryType ERROR = RollbarTelemetryType('error');
+  static const RollbarTelemetryType NETWORK = RollbarTelemetryType('network');
 }
 
 class RollbarTelemetry {
@@ -35,8 +36,14 @@ class RollbarTelemetry {
   final String message;
   final String stack;
 
-  RollbarTelemetry({@required this.level, @required this.type, this.source = 'client', int timestamp, @required this.message, this.stack})
-      : this.timestamp = timestamp ?? DateTime.now().millisecondsSinceEpoch;
+  RollbarTelemetry({
+    @required this.level,
+    @required this.type,
+    this.source = 'client',
+    int timestamp,
+    @required this.message,
+    this.stack,
+  }) : this.timestamp = timestamp ?? DateTime.now().millisecondsSinceEpoch;
 
   Map toJson() => {
         'level': level.name,
@@ -50,14 +57,44 @@ class RollbarTelemetry {
       };
 }
 
+class RollbarNetworkTelemetry extends RollbarTelemetry {
+  RollbarNetworkTelemetry({
+    @required this.url,
+    @required this.method,
+    @required this.statusCode,
+    @required this.startTime,
+    @required this.endTime,
+  }) : super(level: RollbarLogLevel.INFO, type: RollbarTelemetryType.NETWORK, message: '');
+
+  final String url;
+  final String method;
+  final int statusCode;
+  final DateTime startTime;
+  final DateTime endTime;
+
+  Map toJson() => {
+        'level': level.name,
+        'type': type.name,
+        'source': source,
+        'timestamp_ms': timestamp,
+        'body': {
+          'url': url,
+          'method': method,
+          'status_code': statusCode,
+          'start_time_ms': startTime.millisecondsSinceEpoch,
+          'end_time_ms': endTime.millisecondsSinceEpoch,
+        }
+      };
+}
+
 class RollbarPerson {
   final String id, email, username;
 
   RollbarPerson({@required this.id, this.email, this.username});
 
   Map toJson() => {
-    'id': id,
-    'email': email,
-    'username': username,
-  };
+        'id': id,
+        'email': email,
+        'username': username,
+      };
 }

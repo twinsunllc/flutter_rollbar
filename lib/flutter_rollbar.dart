@@ -7,7 +7,7 @@ import 'package:device_info/device_info.dart';
 import 'package:flutter_rollbar/rollbar_api.dart';
 import 'package:flutter_rollbar/rollbar_types.dart';
 import 'package:meta/meta.dart';
-import 'package:package_info/package_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 export './rollbar_types.dart';
 export './rollbar_api.dart';
@@ -73,7 +73,8 @@ class Rollbar {
         'app_name': packageInfo.appName,
       };
     }
-    return _api.sendReport(accessToken: accessToken, telemetry: telemetry, message: message, clientData: clientData, person: person, environment: environment);
+    return _api.sendReport(
+        accessToken: accessToken, telemetry: telemetry, message: message, clientData: clientData, person: person, environment: environment);
   }
 
   void dispose() {}

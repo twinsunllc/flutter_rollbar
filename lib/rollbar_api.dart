@@ -8,9 +8,16 @@ import 'package:meta/meta.dart';
 
 class RollbarApi {
   final http.Client _client = http.Client();
-  Future<http.Response> sendReport({@required String accessToken, @required String message, @required List<RollbarTelemetry> telemetry, Map clientData, RollbarPerson person, String environment}) {
+  Future<http.Response> sendReport({
+    @required String accessToken,
+    @required String message,
+    @required List<RollbarTelemetry> telemetry,
+    Map clientData,
+    RollbarPerson person,
+    String environment,
+  }) {
     return _client.post(
-      'https://api.rollbar.com/api/1/item/',
+      Uri.parse('https://api.rollbar.com/api/1/item/'),
       body: json.encode(
         {
           'access_token': accessToken,
@@ -29,7 +36,7 @@ class RollbarApi {
             'client': clientData,
             'notifier': {
               'name': 'flutter_rollbar',
-              'version': '0.0.1+1',
+              'version': '0.1.0+1',
             }
           }
         },

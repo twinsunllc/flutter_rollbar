@@ -1,3 +1,9 @@
-## [0.0.1] - TODO: Add release date.
+## [0.1.0] - 2021-10-14
 
-* TODO: Describe initial release.
+### Added
+
+- Add support for network logs
+
+### Changed
+
+- Update dart SDK version to 2.7.0
