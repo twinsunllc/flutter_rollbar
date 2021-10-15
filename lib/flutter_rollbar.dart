@@ -3,7 +3,7 @@ library flutter_rollbar;
 import 'dart:async';
 import 'dart:io';
 
-import 'package:device_info/device_info.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_rollbar/rollbar_api.dart';
 import 'package:flutter_rollbar/rollbar_types.dart';
 import 'package:meta/meta.dart';
@@ -11,6 +11,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 export './rollbar_types.dart';
 export './rollbar_api.dart';
+export './rollbar_http.dart';
 
 class Rollbar {
   static var _instance = Rollbar._internal();

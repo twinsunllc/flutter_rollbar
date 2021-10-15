@@ -1,8 +1,9 @@
-## [0.1.0] - 2021-10-14
+## [0.1.0] - 2021-10-15
 
 ### Added
 
 - Add support for network logs
+- Add RollbarHttpClient to automatically collect network request logs
 
 ### Changed
 
