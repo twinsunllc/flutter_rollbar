@@ -12,6 +12,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 export './rollbar_types.dart';
 export './rollbar_api.dart';
 export './rollbar_http.dart';
+export './rollbar_logging.dart';
 
 class Rollbar {
   static var _instance = Rollbar._internal();

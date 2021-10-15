@@ -1,3 +1,7 @@
+## [0.2.0] - 2021-10-15
+
+- Add RollbarLogging class to tightly integrate with the logging package
+
 ## [0.1.0] - 2021-10-15
 
 ### Added
